@@ -11,7 +11,14 @@ The repository is organized as follows:
 ```text
 FTEC5660/
 ├── homeworks/
-│   └── hw1/
-│       ├── homework1.ipynb   # Source code (Jupyter Notebook)
-│       └── report.pdf        # Solution report and methodology
+│   ├── hw1/
+│   │   ├── homework1.ipynb   # Bills Agent
+│   │   └── report.pdf       
+│   └── hw2/
+│       ├── part1/
+│       │   ├── homework2.ipynb   # CV Verification Agent
+│       │   └── hw2part1_report.pdf
+│       └── part2/
+│           ├── homework2_part2.ipynb # Moltbook
+│           └── hw2part2_report.pdf
 └── README.md
