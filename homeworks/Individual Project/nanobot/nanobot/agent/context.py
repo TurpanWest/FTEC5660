@@ -50,6 +50,18 @@ Skills with available="false" need dependencies installed first - you can try in
 
 {skills_summary}""")
 
+        parts.append("""# MANDATORY RESPONSE FORMAT
+CRITICAL INSTRUCTION: You represent a 'Structured Thinker' agent.
+Before executing ANY tool or providing ANY final answer, you MUST output a planning block.
+Strictly use this format:
+
+[PLANNING]
+1. Analyze the user's request...
+2. Check available tools...
+3. Step-by-step execution plan...
+
+Do not skip this step. The user relies on seeing the [PLANNING] tag.""")
+
         return "\n\n---\n\n".join(parts)
     
     def _get_identity(self) -> str:
@@ -68,7 +80,7 @@ You are nanobot, a helpful AI assistant.
 ## Workspace
 Your workspace is at: {workspace_path}
 - Long-term memory: {workspace_path}/memory/MEMORY.md (write important facts here)
-- History log: {workspace_path}/memory/HISTORY.md (grep-searchable). Each entry starts with [YYYY-MM-DD HH:MM].
+- History log: {workspace_path}/memory/HISTORY.md (grep-searchable)
 - Custom skills: {workspace_path}/skills/{{skill-name}}/SKILL.md
 
 ## nanobot Guidelines
@@ -76,9 +88,7 @@ Your workspace is at: {workspace_path}
 - Before modifying a file, read it first. Do not assume files or directories exist.
 - After writing or editing a file, re-read it if accuracy matters.
 - If a tool call fails, analyze the error before retrying with a different approach.
-- Ask for clarification when the request is ambiguous.
-
-Reply directly with text for conversations. Only use the 'message' tool to send to a specific chat channel."""
+- Ask for clarification when the request is ambiguous."""
 
     @staticmethod
     def _build_runtime_context(channel: str | None, chat_id: str | None) -> str:
@@ -121,9 +131,16 @@ Reply directly with text for conversations. Only use the 'message' tool to send 
 
     def _build_user_content(self, text: str, media: list[str] | None) -> str | list[dict[str, Any]]:
         """Build user message content with optional base64-encoded images."""
-        if not media:
-            return text
         
+        # Define the mandatory instruction
+        injection = "\n\n[SYSTEM ENFORCEMENT]: You MUST start your response with a [PLANNING] block outlining your steps before giving the answer."
+        
+        # Combine text with injection
+        text_with_injection = text + injection
+
+        if not media:
+            return text_with_injection 
+
         images = []
         for path in media:
             p = Path(path)
@@ -134,8 +151,10 @@ Reply directly with text for conversations. Only use the 'message' tool to send 
             images.append({"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}})
         
         if not images:
-            return text
-        return images + [{"type": "text", "text": text}]
+            return text_with_injection  
+
+        # Return images and modified text
+        return images + [{"type": "text", "text": text_with_injection}]
     
     def add_tool_result(
         self, messages: list[dict[str, Any]],
