@@ -8,17 +8,22 @@ This repository contains my individual homework submissions and coursework for *
 
 The repository is organized as follows:
 
-```text
+<pre>
 FTEC5660/
 ├── homeworks/
 │   ├── hw1/
 │   │   ├── homework1.ipynb   # Bills Agent
 │   │   └── report.pdf       
-│   └── hw2/
-│       ├── part1/
-│       │   ├── homework2.ipynb   # CV Verification Agent
-│       │   └── hw2part1_report.pdf
-│       └── part2/
-│           ├── homework2_part2.ipynb # Moltbook
-│           └── hw2part2_report.pdf
+│   ├── hw2/
+│   │   ├── part1/
+│   │   │   ├── homework2.ipynb   # CV Verification Agent
+│   │   │   └── hw2part1_report.pdf
+│   │   └── part2/
+│   │       ├── homework2_part2.ipynb # Moltbook
+│   │       └── hw2part2_report.pdf
+│   └── Individual Project/
+│       ├── nanobot/          # Source code
+│       ├── <a href="homeworks/Individual%20Project/README.md">README.md</a>         # Reproducibility Guide
+│       └── report.pdf
 └── README.md
+</pre>
