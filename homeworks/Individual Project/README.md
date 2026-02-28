@@ -88,7 +88,7 @@ You can reproduce the modification directly in your terminal.
 
 ---
 
-## 🧪 Reproduction Summary
+## Reproduction Summary
 
 ### 1. What I Reproduced
 *   **Tool Use**: Financial analysis using external search/APIs.
